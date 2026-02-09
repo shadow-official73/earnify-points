@@ -14,9 +14,7 @@ const TopBar = () => {
             RAJVIR
           </h1>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground font-medium">Point Miner</span>
-        </div>
+        <div className="flex items-center gap-2" />
       </div>
     </header>
   );
