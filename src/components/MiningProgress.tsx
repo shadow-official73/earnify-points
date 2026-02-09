@@ -1,8 +1,8 @@
 import { useApp } from "@/contexts/AppContext";
 import { t } from "@/lib/translations";
-import { Clock, Zap } from "lucide-react";
+import { Clock } from "lucide-react";
 
-const SECONDS_PER_POINT = 18000;
+const SECONDS_PER_POINT = 86400; // 1 point per 24 hours (~1 pt/day)
 
 function formatTime(totalSeconds: number): string {
   const h = Math.floor(totalSeconds / 3600);
@@ -46,14 +46,6 @@ const MiningProgress = () => {
         </div>
       </div>
 
-      {/* Earned today */}
-      <div className="p-4 rounded-xl bg-card border border-border/50 flex items-center justify-between" style={{ boxShadow: "var(--shadow-card)" }}>
-        <div className="flex items-center gap-2">
-          <Zap className="w-4 h-4 text-primary" />
-          <span className="text-xs text-muted-foreground font-medium">{t(lang, "earnedToday")}</span>
-        </div>
-        <span className="font-display text-lg font-bold text-primary">+{earnedToday}</span>
-      </div>
     </div>
   );
 };

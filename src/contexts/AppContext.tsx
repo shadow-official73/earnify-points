@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { type Language } from "@/lib/translations";
 
-const SECONDS_PER_POINT = 18000; // 5 hours
+const SECONDS_PER_POINT = 86400; // 1 point per 24 hours (~1 pt/day)
 
 interface RechargeRecord {
   date: string;

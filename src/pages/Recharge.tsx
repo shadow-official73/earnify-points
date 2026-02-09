@@ -12,10 +12,16 @@ const Recharge = () => {
   const { toast } = useToast();
   const [mobileNumber, setMobileNumber] = useState("");
 
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Only allow digits, max 10
+    const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setMobileNumber(digits);
+  };
+
   const handleRecharge = () => {
     const cleaned = mobileNumber.replace(/\D/g, "");
-    if (cleaned.length < 10) {
-      toast({ title: t(lang, "enterNumber"), variant: "destructive" });
+    if (cleaned.length !== 10) {
+      toast({ title: t(lang, "invalidNumber"), variant: "destructive" });
       return;
     }
     if (state.points < 28) {
@@ -58,18 +64,22 @@ const Recharge = () => {
 
           <input
             type="tel"
+            inputMode="numeric"
             value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value)}
+            onChange={handleNumberChange}
             placeholder={t(lang, "enterNumber")}
-            maxLength={15}
-            className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary mb-4 placeholder:text-muted-foreground"
+            maxLength={10}
+            className="w-full bg-secondary border border-border rounded-lg px-4 py-3 text-foreground text-sm outline-none focus:border-primary mb-2 placeholder:text-muted-foreground"
           />
+          <p className="text-[10px] text-muted-foreground mb-4">
+            {mobileNumber.length}/10
+          </p>
 
           <button
             onClick={handleRecharge}
-            disabled={state.points < 28 || mobileNumber.replace(/\D/g, "").length < 10}
+            disabled={state.points < 28 || mobileNumber.length !== 10}
             className={`w-full py-3 rounded-lg font-display font-bold text-sm transition-all ${
-              state.points >= 28
+              state.points >= 28 && mobileNumber.length === 10
                 ? "bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.98]"
                 : "bg-secondary text-muted-foreground cursor-not-allowed"
             }`}
@@ -100,7 +110,10 @@ const Recharge = () => {
                     </p>
                   </div>
                 </div>
-                <span className="text-sm font-display font-bold text-destructive">-{rec.points}</span>
+                <div className="text-right">
+                  <span className="text-sm font-display font-bold text-destructive">-{rec.points}</span>
+                  <p className="text-[10px] text-primary font-medium">{t(lang, "pending")}</p>
+                </div>
               </div>
             ))}
           </div>
