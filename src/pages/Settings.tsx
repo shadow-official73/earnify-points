@@ -60,36 +60,6 @@ const Settings = () => {
           </div>
         </div>
 
-        {/* Help / FAQ */}
-        <div className="p-4 rounded-xl bg-card border border-border/50 mb-4" style={{ boxShadow: "var(--shadow-card)" }}>
-          <div className="flex items-center gap-3 mb-4">
-            <HelpCircle className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium text-foreground">{t(lang, "help")}</span>
-          </div>
-          <div className="space-y-2">
-            {faqs.map((faq, i) => (
-              <div key={i} className="rounded-lg bg-secondary border border-border/50 overflow-hidden">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-3 py-3 text-left"
-                >
-                  <span className="text-xs font-medium text-foreground">{faq.q}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-muted-foreground transition-transform ${
-                      openFaq === i ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {openFaq === i && (
-                  <div className="px-3 pb-3">
-                    <p className="text-xs text-muted-foreground">{faq.a}</p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Change Password */}
         <button
           onClick={handleChangePassword}
