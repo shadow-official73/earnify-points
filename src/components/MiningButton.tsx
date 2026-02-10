@@ -55,16 +55,14 @@ const MiningButton = () => {
       <p className={`mt-6 text-sm font-medium ${isMining ? "text-primary" : "text-muted-foreground"}`}>
         {isMining ? t(lang, "miningActive") : t(lang, "miningInactive")}
       </p>
-      <button
-        onClick={handleTap}
-        className={`mt-2 px-6 py-2 rounded-full text-sm font-display font-bold transition-all ${
-          isMining
-            ? "bg-destructive/20 text-destructive border border-destructive/30"
-            : "bg-primary/20 text-primary border border-primary/30"
-        }`}
-      >
-        {isMining ? t(lang, "stopMining") : t(lang, "startMining")}
-      </button>
+      {!isMining && (
+        <button
+          onClick={handleTap}
+          className="mt-2 px-6 py-2 rounded-full text-sm font-display font-bold transition-all bg-primary/20 text-primary border border-primary/30"
+        >
+          {t(lang, "startMining")}
+        </button>
+      )}
     </div>
   );
 };
