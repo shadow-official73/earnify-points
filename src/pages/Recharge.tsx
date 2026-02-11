@@ -18,7 +18,7 @@ const Recharge = () => {
     setMobileNumber(digits);
   };
 
-  const handleRecharge = () => {
+  const handleRecharge = async () => {
     const cleaned = mobileNumber.replace(/\D/g, "");
     if (cleaned.length !== 10) {
       toast({ title: t(lang, "invalidNumber"), variant: "destructive" });
@@ -28,7 +28,7 @@ const Recharge = () => {
       toast({ title: t(lang, "insufficientPoints"), variant: "destructive" });
       return;
     }
-    const success = doRecharge(cleaned);
+    const success = await doRecharge(cleaned);
     if (success) {
       toast({ title: t(lang, "rechargeSuccess") });
       setMobileNumber("");
