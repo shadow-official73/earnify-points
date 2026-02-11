@@ -1,33 +1,34 @@
 import TopBar from "@/components/TopBar";
 import BottomNav from "@/components/BottomNav";
 import { useApp } from "@/contexts/AppContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { t, languageNames, type Language } from "@/lib/translations";
-import { Globe, Lock, LogOut, ChevronRight, HelpCircle, ChevronDown } from "lucide-react";
+import { Globe, Lock, LogOut, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LANGUAGES: Language[] = ["en", "hi", "pa", "es", "fr"];
 
 const Settings = () => {
   const { state, setLanguage } = useApp();
+  const { logout } = useAuth();
   const lang = state.language;
   const { toast } = useToast();
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const handleChangePassword = () => {
-    toast({ title: t(lang, "loginRequired"), variant: "destructive" });
+    toast({ title: "Phone OTP login — पासवर्ड नहीं है", variant: "destructive" });
   };
 
-  const handleLogout = () => {
-    toast({ title: t(lang, "loginRequired"), variant: "destructive" });
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login");
+    } catch {
+      toast({ title: "Logout error", variant: "destructive" });
+    }
   };
-
-  const faqs = [
-    { q: t(lang, "helpQ1"), a: t(lang, "helpA1") },
-    { q: t(lang, "helpQ2"), a: t(lang, "helpA2") },
-    { q: t(lang, "helpQ3"), a: t(lang, "helpA3") },
-    { q: t(lang, "helpQ4"), a: t(lang, "helpA4") },
-  ];
 
   return (
     <div className="min-h-screen bg-background flex flex-col max-w-lg mx-auto">

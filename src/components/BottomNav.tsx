@@ -1,12 +1,14 @@
-import { Home, User, Smartphone, Settings } from "lucide-react";
+import { Home, User, Smartphone, Settings, Shield } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { t } from "@/lib/translations";
 
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = useApp();
+  const { userRole } = useAuth();
   const lang = state.language;
 
   const navItems = [
@@ -14,6 +16,7 @@ const BottomNav = () => {
     { icon: Smartphone, label: t(lang, "recharge"), path: "/recharge" },
     { icon: User, label: t(lang, "profile"), path: "/profile" },
     { icon: Settings, label: t(lang, "settings"), path: "/settings" },
+    ...(userRole === "admin" ? [{ icon: Shield, label: "Admin", path: "/admin" }] : []),
   ];
 
   return (
@@ -26,7 +29,7 @@ const BottomNav = () => {
               key={item.path}
               onClick={() => navigate(item.path)}
               className={`
-                flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors
+                flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors
                 ${isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"}
               `}
             >

@@ -7,31 +7,18 @@ const MiningButton = () => {
   const isMining = state.miningActive;
   const lang = state.language;
 
-  const handleTap = () => {
-    if (isMining) {
-      stopMining();
-    } else {
-      startMining();
-    }
-  };
-
   return (
     <div className="flex flex-col items-center justify-center py-8">
       <div className="relative">
-        {/* Glow ring */}
         {isMining && <div className="absolute inset-0 rounded-full bg-primary/10 blur-2xl scale-150" />}
-
-        {/* Outer ring */}
         <div
           className={`relative w-48 h-48 rounded-full p-1 bg-gradient-to-br from-primary/40 to-primary/10 ${
             isMining ? "animate-pulse-glow" : ""
           }`}
         >
-          {/* Inner ring */}
           <div className="w-full h-full rounded-full p-1 bg-gradient-to-br from-primary/20 to-transparent">
-            {/* Button */}
             <button
-              onClick={handleTap}
+              onClick={isMining ? stopMining : startMining}
               className={`
                 relative w-full h-full rounded-full
                 bg-gradient-to-br from-secondary to-background
@@ -55,14 +42,17 @@ const MiningButton = () => {
       <p className={`mt-6 text-sm font-medium ${isMining ? "text-primary" : "text-muted-foreground"}`}>
         {isMining ? t(lang, "miningActive") : t(lang, "miningInactive")}
       </p>
-      {!isMining && (
-        <button
-          onClick={handleTap}
-          className="mt-2 px-6 py-2 rounded-full text-sm font-display font-bold transition-all bg-primary/20 text-primary border border-primary/30"
-        >
-          {t(lang, "startMining")}
-        </button>
-      )}
+
+      <button
+        onClick={isMining ? stopMining : startMining}
+        className={`mt-2 px-6 py-2 rounded-full text-sm font-display font-bold transition-all ${
+          isMining
+            ? "bg-destructive/20 text-destructive border border-destructive/30"
+            : "bg-primary/20 text-primary border border-primary/30"
+        }`}
+      >
+        {isMining ? "STOP" : "START"}
+      </button>
     </div>
   );
 };
